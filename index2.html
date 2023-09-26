@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airplane Seat Map</title>
+<style>
+  .plane {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+  }
+
+  .seat {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #ccc;
+    cursor: pointer;
+  }
+
+  .selected {
+    background-color: #00f; /* Change to your desired selected color */
+  }
+
+  .left-seats .seat {
+    left: 0;
+  }
+
+  .right-seats .seat {
+    right: 0;
+  }
+
+  .gap {
+    width: 40px;
+    height: 30px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div class="plane" id="plane">
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const plane = document.getElementById('plane');
+
+      function createRow(rowNum) {
+        const leftSeats = document.createElement('div');
+        leftSeats.classList.add('left-seats');
+
+        const leftSeat = document.createElement('div');
+        leftSeat.classList.add('seat');
+        leftSeat.style.top = `${rowNum * 40}px`;
+        leftSeat.style.left = `0`;
+        leftSeat.dataset.row = rowNum;
+        leftSeat.dataset.col = 0;
+        leftSeat.addEventListener('click', toggleSelection);
+        leftSeats.appendChild(leftSeat);
+
+        const rightSeats = document.createElement('div');
+        rightSeats.classList.add('right-seats');
+
+        for (let j = 0; j < 3; j++) {
+          const rightSeat = document.createElement('div');
+          rightSeat.classList.add('seat');
+          rightSeat.style.top = `${rowNum * 40}px`;
+          rightSeat.style.right = `${j * 40}px`;
+          rightSeat.dataset.row = rowNum;
+          rightSeat.dataset.col = j + 1;
+          rightSeat.addEventListener('click', toggleSelection);
+          rightSeats.appendChild(rightSeat);
+        }
+
+        plane.appendChild(leftSeats);
+        plane.appendChild(rightSeats);
+      }
+
+      function toggleSelection() {
+        this.classList.toggle('selected');
+      }
+
+      for (let i = 0; i < 12; i++) {
+        createRow(i);
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+Previous Code (3 Columns on Both Sides):
+
+<!-- ... previous HTML and CSS ... -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const plane = document.getElementById('plane');
+  
+      function createSeats(rows, cols) {
+        for (let i = 0; i < rows; i++) {
+          for (let j = 0; j < cols; j++) {
+            // ... creating seats logic ...
+          }
+        }
+      }
+  
+      // ... other functions ...
+  
+      createSeats(12, 6); 
+    });
+  </script>
+  <!-- ... rest of the code ... -->
+
+  Modified Code (1 Column on Left Side):
+
+  <!-- ... modified HTML and CSS ... -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const plane = document.getElementById('plane');
+  
+      function createRow(rowNum) {
+        const leftSeats = document.createElement('div');
+        leftSeats.classList.add('left-seats');
+  
+        const leftSeat = document.createElement('div');
+        // ... creating left seat logic ...
+        leftSeats.appendChild(leftSeat);
+  
+        const rightSeats = document.createElement('div');
+        rightSeats.classList.add('right-seats');
+  
+        for (let j = 0; j < 3; j++) {
+          const rightSeat = document.createElement('div');
+          // ... creating right seats logic ...
+          rightSeats.appendChild(rightSeat);
+        }
+  
+        plane.appendChild(leftSeats);
+        plane.appendChild(rightSeats);
+      }
+  
+      // ... other functions ...
+  
+      for (let i = 0; i < 12; i++) {
+        createRow(i);
+      }
+    });
+  </script>
+  <!-- ... rest of the code ... -->
+
+  Differences:
+
+Number of Columns:
+
+Previous Code: 3 columns on both left and right sides.
+Modified Code: 1 column on the left side, 3 columns on the right side.
+Functionality:
+
+Previous Code: createSeats function generates all the seats in a loop.
+Modified Code: createRow function generates one seat on the left side and three seats on the right side for each row.
+Positioning:
+
+Previous Code: Positioning is handled by the loop inside createSeats.
+Modified Code: Positioning is defined explicitly for each seat within createRow.
+Seat Classes:
+
+Previous Code: Seats are assigned classes based on their position (.left-seats and .right-seats).
+Modified Code: Seats are assigned classes within the createRow function.
+Column Indexing:
+
+Previous Code: Seats in the previous code are indexed from 0 to 5.
+Modified Code: Seats in the modified code are indexed differently (left seat is at column 0, right seats are at columns 1 to 3).
+
+
+This is right single column
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airplane Seat Map</title>
+<style>
+  .plane {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+  }
+
+  .seat {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #ccc;
+    cursor: pointer;
+  }
+
+  .selected {
+    background-color: #00f; /* Change to your desired selected color */
+  }
+
+  .left-seats .seat {
+    left: 0;
+  }
+
+  .right-seats .seat {
+    right: 0;
+  }
+
+  .gap {
+    width: 40px;
+    height: 30px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div class="plane" id="plane">
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const plane = document.getElementById('plane');
+
+      function createRow(rowNum) {
+        const leftSeats = document.createElement('div');
+        leftSeats.classList.add('left-seats');
+
+        const leftSeat = document.createElement('div');
+        leftSeat.classList.add('seat');
+        leftSeat.style.top = `${rowNum * 40}px`;
+        leftSeat.style.left = `0`;
+        leftSeat.dataset.row = rowNum;
+        leftSeat.dataset.col = 0;
+        leftSeat.addEventListener('click', toggleSelection);
+        leftSeats.appendChild(leftSeat);
+
+        const rightSeats = document.createElement('div');
+        rightSeats.classList.add('right-seats');
+
+        const rightSeat = document.createElement('div');
+        rightSeat.classList.add('seat');
+        rightSeat.style.top = `${rowNum * 40}px`;
+        rightSeat.style.right = `0`;
+        rightSeat.dataset.row = rowNum;
+        rightSeat.dataset.col = 1;
+        rightSeat.addEventListener('click', toggleSelection);
+        rightSeats.appendChild(rightSeat);
+
+        plane.appendChild(leftSeats);
+        plane.appendChild(rightSeats);
+      }
+
+      function toggleSelection() {
+        this.classList.toggle('selected');
+      }
+
+      for (let i = 0; i < 12; i++) {
+        createRow(i);
+      }
+    });
+  </script>
+</body>
+</html>
