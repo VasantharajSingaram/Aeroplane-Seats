@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airplane Seat Map</title>
+<style>
+  .plane {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+  }
+
+  .seat {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #ccc;
+    cursor: pointer;
+  }
+
+  .selected {
+    background-color: #00f;
+  }
+
+  .left-seats .seat {
+    left: 0;
+  }
+
+  .right-seats .seat {
+    right: 0;
+  }
+
+  .gap {
+    width: 40px;
+    height: 30px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+  }
+
+  .row-number {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+  }
+
+  .selected-seat-info {
+    margin-top: 10px;
+  }
+  .tick-mark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: rgb(227, 227, 234);
+}
+
+</style>
+</head>
+<body>
+  <div class="plane" id="plane">
+  </div>
+
+  <div class="selected-seat-info">
+    You have selected: <span id="selected-seat"></span>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+  const plane = document.getElementById('plane');
+  const selectedSeats = [];
+  const selectedSeatInfo = document.getElementById('selected-seat');
+
+  function createRow(rowNum) {
+    const leftSeats = document.createElement('div');
+    leftSeats.classList.add('left-seats');
+    const rightSeats = document.createElement('div');
+    rightSeats.classList.add('right-seats');
+
+    for (let j = 0; j < 2; j++) {
+      const leftSeat = document.createElement('div');
+      leftSeat.classList.add('seat');
+      leftSeat.style.top = `${rowNum * 40}px`;
+      leftSeat.style.left = `${j * 40}px`;
+      leftSeat.dataset.row = rowNum;
+      leftSeat.dataset.col = j;
+      leftSeat.addEventListener('click', toggleSelection);
+      leftSeats.appendChild(leftSeat);
+
+      const rightSeat = document.createElement('div');
+      rightSeat.classList.add('seat');
+      rightSeat.style.top = `${rowNum * 40}px`;
+      rightSeat.style.right = `${j * 40}px`;
+      rightSeat.dataset.row = rowNum;
+      rightSeat.dataset.col = j + 2;
+      rightSeat.addEventListener('click', toggleSelection);
+      rightSeats.appendChild(rightSeat);
+    }
+
+    const rowNumber = document.createElement('div');
+    rowNumber.classList.add('row-number');
+    rowNumber.textContent = `${rowNum + 1}`;
+    rowNumber.style.top = `${rowNum * 40 + 5}px`;
+    plane.appendChild(rowNumber);
+
+    plane.appendChild(leftSeats);
+    plane.appendChild(rightSeats);
+  }
+
+  function toggleSelection() {
+    this.classList.toggle('selected');
+
+    const row = this.dataset.row;
+    const col = String.fromCharCode(97 + parseInt(this.dataset.col)); // Convert 0, 1 to 'a', 'b'
+    const seatId = `${row}${col}`;
+
+    if (this.classList.contains('selected')) {
+      selectedSeats.push(seatId);
+    } else {
+      const index = selectedSeats.indexOf(seatId);
+      if (index > -1) {
+        selectedSeats.splice(index, 1);
+      }
+    }
+
+    updateSelectedSeatInfo();
+    updateTickMark.call(this);
+  }
+
+  function updateSelectedSeatInfo() {
+    selectedSeatInfo.textContent = `You have selected: ${selectedSeats.join(', ')}`;
+  }
+
+  function updateTickMark() {
+    const tick = document.createElement('div');
+    tick.classList.add('tick-mark');
+    tick.innerHTML = '&#10003;'; 
+
+    if (this.classList.contains('selected')) {
+      this.appendChild(tick);
+    } else {
+      const tick = this.querySelector('.tick-mark');
+      if (tick) {
+        tick.remove();
+      }
+    }
+  }
+
+  for (let i = 0; i < 12; i++) {
+    createRow(i);
+  }
+});
+
+  </script>
+</body>
+</html>

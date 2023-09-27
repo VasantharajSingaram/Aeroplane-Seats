@@ -1,0 +1,45 @@
+function createRow(rowNum) {
+  const leftSeats = document.createElement('div');
+  leftSeats.classList.add('left-seats');
+  const rightSeats = document.createElement('div');
+  rightSeats.classList.add('right-seats');
+
+  for (let j = 0; j < 3; j++) {
+    if (rowNum !== 5) { // Check if it's not the 6th row (index 5)
+      const leftSeat = document.createElement('div');
+      leftSeat.classList.add('seat');
+      leftSeat.style.top = `${rowNum * 40}px`;
+      leftSeat.style.left = `${j * 40}px`;
+      leftSeat.dataset.row = rowNum;
+      leftSeat.dataset.col = j;
+      leftSeat.addEventListener('click', toggleSelection);
+      leftSeats.appendChild(leftSeat);
+
+      const rightSeat = document.createElement('div');
+      rightSeat.classList.add('seat');
+      rightSeat.style.top = `${rowNum * 40}px`;
+      rightSeat.style.right = `${j * 40}px`;
+      rightSeat.dataset.row = rowNum;
+      rightSeat.dataset.col = j + 3;
+      rightSeat.addEventListener('click', toggleSelection);
+      rightSeats.appendChild(rightSeat);
+    }
+  }
+
+  const rowNumber = document.createElement('div');
+  rowNumber.classList.add('row-number');
+  rowNumber.textContent = `Row ${rowNum + 1}`;
+  rowNumber.style.top = `${rowNum * 40 + 5}px`;
+  plane.appendChild(rowNumber);
+
+  if (rowNum !== 5) { // Check if it's not the 6th row (index 5)
+    plane.appendChild(leftSeats);
+    plane.appendChild(rightSeats);
+  } else {
+    const gap = document.createElement('div');
+    gap.classList.add('gap');
+    gap.style.top = `${rowNum * 40}px`;
+    gap.style.left = `0`;
+    plane.appendChild(gap);
+  }
+}
