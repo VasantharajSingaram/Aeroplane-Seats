@@ -6,11 +6,11 @@
 <title>Airplane Seat Map</title>
 <style>
   .plane {
-    position: relative;
+    /* position: relative;
     width: 800px;
     height: 600px;
     background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    border: 1px solid #ccc; */
   }
 
   .seat {
@@ -61,102 +61,106 @@
     color: rgb(227, 227, 234);
 }
 
+.left-seats:nth-child(9){margin-top: 20px;}
+
 </style>
 </head>
 <body>
   <div class="plane" id="plane">
   </div>
 
-  <div class="selected-seat-info">
+  <!-- <div class="selected-seat-info">
     You have selected: <span id="selected-seat"></span>
-  </div>
+  </div> -->
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-  const plane = document.getElementById('plane');
-  const selectedSeats = [];
-  const selectedSeatInfo = document.getElementById('selected-seat');
+      const plane = document.getElementById('plane');
+      const selectedSeats = [];
+      const selectedSeatInfo = document.getElementById('selected-seat');
 
-  function createRow(rowNum) {
-    const leftSeats = document.createElement('div');
-    leftSeats.classList.add('left-seats');
-    const rightSeats = document.createElement('div');
-    rightSeats.classList.add('right-seats');
+      function createRow(rowNum) {
+        const leftSeats = document.createElement('div');
+        leftSeats.classList.add('left-seats');
+        const rightSeats = document.createElement('div');
+        rightSeats.classList.add('right-seats');
 
-    for (let j = 0; j < 2; j++) {
-      const leftSeat = document.createElement('div');
-      leftSeat.classList.add('seat');
-      leftSeat.style.top = `${rowNum * 40}px`;
-      leftSeat.style.left = `${j * 40}px`;
-      leftSeat.dataset.row = rowNum;
-      leftSeat.dataset.col = j;
-      leftSeat.addEventListener('click', toggleSelection);
-      leftSeats.appendChild(leftSeat);
+        let numSeats = (rowNum < 9) ? 2 : 3;
 
-      const rightSeat = document.createElement('div');
-      rightSeat.classList.add('seat');
-      rightSeat.style.top = `${rowNum * 40}px`;
-      rightSeat.style.right = `${j * 40}px`;
-      rightSeat.dataset.row = rowNum;
-      rightSeat.dataset.col = j + 2;
-      rightSeat.addEventListener('click', toggleSelection);
-      rightSeats.appendChild(rightSeat);
-    }
+        for (let j = 0; j < numSeats; j++) {
+          const leftSeat = document.createElement('div');
+          leftSeat.classList.add('seat');
+          leftSeat.style.top = `${rowNum * 40}px`;
+          leftSeat.style.left = `${j * 40}px`;
+          leftSeat.dataset.row = rowNum;
+          leftSeat.dataset.col = j;
+          leftSeat.addEventListener('click', toggleSelection);
+          leftSeats.appendChild(leftSeat);
 
-    const rowNumber = document.createElement('div');
-    rowNumber.classList.add('row-number');
-    rowNumber.textContent = `${rowNum + 1}`;
-    rowNumber.style.top = `${rowNum * 40 + 5}px`;
-    plane.appendChild(rowNumber);
+          const rightSeat = document.createElement('div');
+          rightSeat.classList.add('seat');
+          rightSeat.style.top = `${rowNum * 40}px`;
+          rightSeat.style.right = `${j * 40}px`;
+          rightSeat.dataset.row = rowNum;
+          rightSeat.dataset.col = j + numSeats; // Adjust column for right seats
+          rightSeat.addEventListener('click', toggleSelection);
+          rightSeats.appendChild(rightSeat);
+        }
 
-    plane.appendChild(leftSeats);
-    plane.appendChild(rightSeats);
-  }
+        const rowNumber = document.createElement('div');
+        rowNumber.classList.add('row-number');
+        rowNumber.textContent = `${rowNum + 1}`;
+        rowNumber.style.top = `${rowNum * 40 + 5}px`;
+        plane.appendChild(rowNumber);
 
-  function toggleSelection() {
-    this.classList.toggle('selected');
-
-    const row = this.dataset.row;
-    const col = String.fromCharCode(97 + parseInt(this.dataset.col)); // Convert 0, 1 to 'a', 'b'
-    const seatId = `${row}${col}`;
-
-    if (this.classList.contains('selected')) {
-      selectedSeats.push(seatId);
-    } else {
-      const index = selectedSeats.indexOf(seatId);
-      if (index > -1) {
-        selectedSeats.splice(index, 1);
+        plane.appendChild(leftSeats);
+        plane.appendChild(rightSeats);
       }
-    }
+      
 
-    updateSelectedSeatInfo();
-    updateTickMark.call(this);
-  }
+      function toggleSelection() {
+        this.classList.toggle('selected');
 
-  function updateSelectedSeatInfo() {
-    selectedSeatInfo.textContent = `You have selected: ${selectedSeats.join(', ')}`;
-  }
+        const row = this.dataset.row;
+        const col = String.fromCharCode(97 + parseInt(this.dataset.col)); // Convert 0, 1 to 'a', 'b'
+        const seatId = `${row}${col}`;
 
-  function updateTickMark() {
-    const tick = document.createElement('div');
-    tick.classList.add('tick-mark');
-    tick.innerHTML = '&#10003;'; 
+        if (this.classList.contains('selected')) {
+          selectedSeats.push(seatId);
+        } else {
+          const index = selectedSeats.indexOf(seatId);
+          if (index > -1) {
+            selectedSeats.splice(index, 1);
+          }
+        }
 
-    if (this.classList.contains('selected')) {
-      this.appendChild(tick);
-    } else {
-      const tick = this.querySelector('.tick-mark');
-      if (tick) {
-        tick.remove();
+        updateSelectedSeatInfo();
+        updateTickMark.call(this);
       }
-    }
-  }
 
-  for (let i = 0; i < 12; i++) {
-    createRow(i);
-  }
-});
+      function updateSelectedSeatInfo() {
+        selectedSeatInfo.textContent = `You have selected: ${selectedSeats.join(', ')}`;
+      }
 
+      function updateTickMark() {
+        const tick = document.createElement('div');
+        tick.classList.add('tick-mark');
+        tick.innerHTML = '&#10003;'; 
+
+        if (this.classList.contains('selected')) {
+          this.appendChild(tick);
+        } else {
+          const tick = this.querySelector('.tick-mark');
+          if (tick) {
+            tick.remove();
+          }
+        }
+      }
+
+      for (let i = 0; i < 34; i++) {
+        createRow(i);
+      }
+    });
   </script>
 </body>
 </html>
