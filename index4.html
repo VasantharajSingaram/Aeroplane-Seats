@@ -1,138 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Airline Seat Map</title>
-<style>
-  .row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+    <title>ATM TRAVELS</title>
 
-  .seat {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #ccc;
-    text-align: center;
-    line-height: 30px;
-    font-size: 12px;
-    cursor: pointer;
-    position: relative;
-    margin: 5px;
-  }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="" />
+    <meta name="author" content="">
 
-  .centerRow {
-    margin-left: 50px;
-    margin-right: 50px;
-  }
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
 
-  .tick {
-    position: absolute;
-    top: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 20px;
-    color: #ffffff;
-    display: none;
-  }
+    <link href="Content/Fonts/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="Content/Fonts/line-awesome/line-awesome.min.css" rel="stylesheet" />
+    <link href="Content/Fonts/flaticon/flaticon.css" rel="stylesheet" />
 
-  .seat.selected .tick {
-    display: block;
-  }
+    <script src="Content/JS/Common/jquery-1.11.1.js"></script>
+    <script src="Content/JS/Common/jquery-ui-new.js"></script>
+    <script src="Content/JS/Common/jquery.blockUI.js"></script>
+    <script src="Content/JS/Common/jquery.xml2json.js"></script>
+    <script src="Content/JS/Common/daterangepicker.js"></script>
 
-  .seat.selected {
-    background-color: #5cb85c;
-  }
+    <link href="Content/CSS/Common/bootstrap-v4.5.2.css" rel="stylesheet" />
+    <script src="Content/JS/Common/popper.min.js"></script>
+    <script src="Content/JS/Common/bootstrap.min.js"></script>
+    <script src="Content/JS/Common/bootstrap-typeahead.js"></script>
 
-  .info {
-    margin-top: 20px;
-  }
-</style>
+    <link href="Content/CSS/Common/lobibox.css" rel="stylesheet" />
+    <script src="Content/JS/Common/lobibox.js"></script>
+
+    <link href="Content/CSS/Common/chosen.css" rel="stylesheet" />
+    <script src="Content/JS/Common/chosen.jquery.js"></script>
+
+    <link href="Content/CSS/Common/raysModal.css" rel="stylesheet" />
+    <script src="Content/JS/Common/raysModal.js"></script>
+
+    <link href="Content/CSS/Common/jquerycalender.css" rel="stylesheet" />
+    <link href="Content/CSS/Common/w2ui-1.5.css" rel="stylesheet" />
+
+    <script src="Content/JS/Common/w2ui-1.5.js"></script>
+    <script src="Content/JS/Common/common.js"></script>
+
+    <script src="Content/JS/Common/jquery.nice-select.js"></script>
+    <script src="Content/JS/Common/WebValidation.js"></script>
+    <script src="Content/JS/Common/detect.js"></script>
+    <script src="Content/JS/Common/moment.min.js"></script>
+
+    <script src="Content/JS/App/Login.js"></script>
+    <script src="Content/JS/App/Holiday.js"></script>
+
+    <link href="Content/CSS/App/Theme/Theme10/color.css" rel="stylesheet" />
+    <link href="Content/CSS/App/Theme/Theme10/style.css" rel="stylesheet" />
+
+    <style>
+        :root {
+    --font-family: 'League Spartan',sans-serif;
+
+    --color-primary: #4063ef;
+    --color-secondary: #f16367;
+    --color-success: #28a745;
+    --color-danger: #dc3545;
+    --color-warning: #ffc107;  
+
+    --color-btn-primary: #1076bb;
+    --color-btn-secondary: #f16367;
+    --color-btn-success: #28a745;
+    --color-btn-danger: #dc3545;
+    --color-btn-warning: #ffc107;  
+
+    --color-bg: #f8f9fd;
+    --color-white: #fff;
+    --color-black: #000;
+    --color-light: #f0f5f9;
+    --color-secondary-light: #fff7f9;
+    --color-yellow-lt:#fff7de;
+    --color-sorting: #666666;
+    --color-selFlight: rgb(0 141 236 / 90%);
+    --color-table-bg: #448bbb;
+    --color-table-border: #838080;
+}
+
+._MCard {float: left;width: 100%;background: #fff;border-radius: 10px;border: 1px solid #ddd;margin-top: 10px;box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);}
+._MCard-header{float: left;width: 100%; background-color: var(--color-primary); border-radius: 10px 10px 0 0;}
+._MCard-header h4 {padding: 10px;margin: 0; color: #fff; font-size: 20px;}
+._MCard-content {float: left;width: 100%;padding: 24px;position: relative;}
+._MCard .title{font-size: 17px; font-weight: 500;}
+._MCard ._MCard-content h5{color: var(--color-primary); font-size: 16px; font-weight: 600;}
+._MCard label{margin: 0;}
+
+.planeSeatArr ._MCard{width: 100%; }
+.planeSeatArr ._MCard ._MCard-content{height: auto; overflow-y: auto; overflow-x: hidden; position: relative;}
+.planeSeatArr ._MCard ._MCard-content img{margin-left: -600px; }
+.seatingArrange{position: relative;     top: 528px;left: 329px;}
+.rowM {display: flex;align-items: center;margin-bottom: 8px;}
+.seat {width: 24px;height: 32px;background-color: #fff;text-align: center;line-height: 30px;font-size: 12px;cursor: pointer;position: relative;margin: 5px;border-radius: 5px;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;}
+.centerrowM {margin-left: 11px;margin-right: 7px;text-align: center;font-size: 12px;}
+.seatingArrange .info{position: absolute; top: 0; left: 50px; width: 100%; left: 253px;  font-size: 20px;}
+#seatMap .rowM:nth-child(1) .centerrowM{    margin-left: 13px;
+margin-right: 8px;}
+#seatMap .rowM:nth-child(5){margin-bottom: 25px;}
+#seatMap .rowM:nth-child(n+6):nth-child(-n+33) .seat{width: 17px; height: 26px; margin: 2px;}
+#seatMap .rowM:nth-child(n+6):nth-child(-n+33) .centerrowM{margin-left: 14px; margin-right: 14px;}
+#seatMap .rowM:nth-child(10) .centerrowM{ margin-left: 12px !important; margin-right: 12px !important;}
+#seatMap .rowM:nth-child(12) .centerrowM{ margin-left: 13px !important; margin-right: 13px !important;}
+#seatMap .rowM:nth-child(13) .centerrowM{ margin-left: 13px !important; margin-right: 13px !important;}
+#seatMap .rowM:nth-child(14) .centerrowM{ margin-left: 13px !important; margin-right: 13px !important;}
+#seatMap .rowM:nth-child(15) .centerrowM{ margin-left: 13px !important; margin-right: 13px !important;}
+#seatMap .rowM:nth-child(16) .centerrowM{ margin-left: 13px !important; margin-right: 13px !important;}
+#seatMap .rowM:nth-child(17) .centerrowM{ margin-left: 13px !important; margin-right: 13px !important;}
+#seatMap .rowM:nth-child(18) .centerrowM{ margin-left: 13px !important; margin-right: 13px !important;}
+#seatMap .rowM:nth-child(19) .centerrowM{ margin-left: 13px !important; margin-right: 13px !important;}
+#seatMap .rowM:nth-child(20) .centerrowM{ margin-left: 11px !important; margin-right: 11px !important;}
+#seatMap .rowM:nth-child(21) .centerrowM{ margin-left: 13px !important; margin-right: 13px !important;}
+#seatMap .rowM:nth-child(22) .centerrowM{ margin-left: 11px !important; margin-right: 11px !important;}
+#seatMap .rowM:nth-child(23) .centerrowM{ margin-left: 11px !important; margin-right: 11px !important;}
+#seatMap .rowM:nth-child(24) .centerrowM{ margin-left: 11px !important; margin-right: 11px !important;}
+#seatMap .rowM:nth-child(25) .centerrowM{ margin-left: 11px !important; margin-right: 11px !important;}
+#seatMap .rowM:nth-child(26) .centerrowM{ margin-left: 11px !important; margin-right: 11px !important;}
+#seatMap .rowM:nth-child(27) .centerrowM{ margin-left: 11px !important; margin-right: 11px !important;}
+#seatMap .rowM:nth-child(28) .centerrowM{ margin-left: 11px !important; margin-right: 11px !important;}
+#seatMap .rowM:nth-child(29) .centerrowM{ margin-left: 11px !important; margin-right: 11px !important;}
+#seatMap .rowM:nth-child(30) .centerrowM{ margin-left: 12px !important; margin-right: 12px !important;}
+#seatMap .rowM:nth-child(31) .centerrowM{ margin-left: 13px !important; margin-right: 13px !important;}
+#seatMap .rowM:nth-child(32) .centerrowM{ margin-left: 12px !important; margin-right: 12px !important;}
+#seatMap .rowM:nth-child(33) .centerrowM{ margin-left: 12px !important; margin-right: 12px !important;}
+.tick {position: absolute;top: 0;left: 50%;transform: translateX(-50%);font-size: 14px;color: #ffffff;display: none;font-weight: 700;}
+.seat.selected .tick {display: block;}
+.seat.selected {background-image: linear-gradient(to top, #5ed3bf, #53d0ba, #47ccb4, #39c9af, #29c5a9);}
+.info {margin-top: 20px;}
+    </style>
 </head>
+
 <body>
+    <header>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container D_container">
+                <a class="navbar-brand" href="javascript:void(0);"> <img src="Images/ATMTRAVEL/Home/ATMLOGO.png" /> </a>
+                <div class="nav_1">
+                    <p class="across">Across the Monde</p>
+                    <p class="popular">Popular known as ATM Travels</p>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon">
+                        <span class="icon-bar top-bar"></span>
+                        <span class="icon-bar middle-bar"></span>
+                        <span class="icon-bar bottom-bar"></span>
+                    </span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-start menu" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="javascript:void(0);">Home <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item visa">
+                            <a class="nav-link " href="javascript:void(0);">Visa</a>
+                        </li>
+                        <li class="nav-item visit">
+                            <a class="nav-link" href="javascript:void(0);">Visit India</a>
+                        </li>
+                        <li class="nav-item tours">
+                            <a class="nav-link" href="javascript:void(0);">International Tours</a>
+                        </li>
+                        <li class="nav-item forex">
+                            <a class="nav-link" href="javascript:void(0);">Forex</a>
+                        </li>
+                        <li class="nav-item more">
+                            <a class="nav-link" href="javascript:void(0);">More</a>
+                        </li>
+                    </ul>
+                    <div>
+                        <button type="button" class="btn btn-group-sm"><i class="fa-solid fa-circle-user"></i> Log
+                            in</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar -->
+    </header>
 
-<div id="seatMap"></div>
-<div class="info"></div>
+    <section class="topBar">
+        <div class="container m_container">
+            <h1>Confirm Your Booking</h3>
+        </div>
+    </section>
 
-<script>
+    <section class="container D_container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="planeSeatArr">
+        <div class="_MCard">
+            <div class="_MCard-header">
+                <h4>Select Your Seats:</h4>
+            </div>
+            <div class="_MCard-content">
+                <img src="/Images/ATMTRAVEL/Booking/flightSeats.png" alt="">
+                <div class="seatingArrange">
+                    <div id="seatMap"></div>
+                    <div class="info"></div>
+                </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+    </section>
+    
+   
+
+    <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const seatMap = document.getElementById('seatMap');
-  const infoDiv = document.querySelector('.info');
-  const rows = 35;
+    const seatMap = document.getElementById('seatMap');
+    const infoDiv = document.querySelector('.info');
+    const rowMs = 33;
 
-  const createSeat = (row, side) => {
-    const seat = document.createElement('div');
-    seat.className = 'seat';
-    seat.dataset.row = row;
-    seat.dataset.side = side;
-    seat.addEventListener('click', selectSeat);
-    const tick = document.createElement('div');
-    tick.className = 'tick';
-    tick.innerHTML = '&#10003;';
-    seat.appendChild(tick);
-    return seat;
-  }
-
-  const createRow = (row) => {
-    const rowDiv = document.createElement('div');
-    rowDiv.className = 'row';
-
-    if (row <= 9) {
-      const leftSeat1 = createSeat(row, 'left');
-      const leftSeat2 = createSeat(row, 'left');
-      const centerRow = document.createElement('div');
-      centerRow.textContent = row;
-      centerRow.className = 'centerRow';
-      const rightSeat1 = createSeat(row, 'right');
-      const rightSeat2 = createSeat(row, 'right');
-  
-      rowDiv.appendChild(leftSeat1);
-      rowDiv.appendChild(leftSeat2);
-      rowDiv.appendChild(centerRow);
-      rowDiv.appendChild(rightSeat1);
-      rowDiv.appendChild(rightSeat2);
-    } else {
-      const leftSeat1 = createSeat(row, 'left');
-      const leftSeat2 = createSeat(row, 'left');
-      const leftSeat3 = createSeat(row, 'left');
-      const centerRow = document.createElement('div');
-      centerRow.textContent = row;
-      centerRow.className = 'centerRow';
-      const rightSeat1 = createSeat(row, 'right');
-      const rightSeat2 = createSeat(row, 'right');
-      const rightSeat3 = createSeat(row, 'right');
-  
-      rowDiv.appendChild(leftSeat1);
-      rowDiv.appendChild(leftSeat2);
-      rowDiv.appendChild(leftSeat3);
-      rowDiv.appendChild(centerRow);
-      rowDiv.appendChild(rightSeat1);
-      rowDiv.appendChild(rightSeat2);
-      rowDiv.appendChild(rightSeat3);
+    const createSeat = (rowM, side) => {
+        const seat = document.createElement('div');
+        seat.className = 'seat';
+        seat.dataset.rowM = rowM;
+        seat.dataset.side = side;
+        seat.addEventListener('click', selectSeat);
+        const tick = document.createElement('div');
+        tick.className = 'tick';
+        tick.innerHTML = '&#10003;';
+        seat.appendChild(tick);
+        return seat;
     }
 
-    seatMap.appendChild(rowDiv);
-  }
+    const createrowM = (rowM) => {
+        const rowMDiv = document.createElement('div');
+        rowMDiv.className = 'rowM';
 
-  const selectSeat = (event) => {
-    const seat = event.currentTarget;
-    seat.classList.toggle('selected');
-    updateInfo();
-  }
+        if (rowM <= 5) {
+            const seatA = createSeat(rowM, 'A');
+            const seatB = createSeat(rowM, 'B');
+            const centerrowM = document.createElement('div');
+            centerrowM.textContent = rowM;
+            centerrowM.className = 'centerrowM';
+            const seatC = createSeat(rowM, 'C');
+            const seatD = createSeat(rowM, 'D');
 
-  const updateInfo = () => {
-    const selectedSeats = document.querySelectorAll('.seat.selected');
-    const selectedSeatsInfo = Array.from(selectedSeats).map(seat => `Row ${seat.dataset.row}, Side ${seat.dataset.side}`).join('<br>');
-    infoDiv.innerHTML = `You have selected:<br>${selectedSeatsInfo}`;
-  }
+            rowMDiv.appendChild(seatA);
+            rowMDiv.appendChild(seatB);
+            rowMDiv.appendChild(centerrowM);
+            rowMDiv.appendChild(seatC);
+            rowMDiv.appendChild(seatD);
+        } else {
+            const seatA = createSeat(rowM, 'A');
+            const seatB = createSeat(rowM, 'B');
+            const seatC = createSeat(rowM, 'C');
+            const centerrowM = document.createElement('div');
+            centerrowM.textContent = rowM;
+            centerrowM.className = 'centerrowM';
+            const seatD = createSeat(rowM, 'D');
+            const seatE = createSeat(rowM, 'E');
+            const seatF = createSeat(rowM, 'F');
 
-  for (let i = 1; i <= rows; i++) {
-    createRow(i);
-  }
+            rowMDiv.appendChild(seatA);
+            rowMDiv.appendChild(seatB);
+            rowMDiv.appendChild(seatC);
+            rowMDiv.appendChild(centerrowM);
+            rowMDiv.appendChild(seatD);
+            rowMDiv.appendChild(seatE);
+            rowMDiv.appendChild(seatF);
+        }
+
+        seatMap.appendChild(rowMDiv);
+    }
+
+    const selectSeat = (event) => {
+        const seat = event.currentTarget;
+        seat.classList.toggle('selected');
+        updateInfo(seat);
+    }
+
+    const updateInfo = () => {
+        const selectedSeats = document.querySelectorAll('.seat.selected');
+        const selectedSeatsInfo = Array.from(selectedSeats).map(seat => {
+            const rowM = seat.dataset.rowM;
+            const side = seat.dataset.side;
+            return `Row ${rowM}, Seat ${side}${(side === 'A' || side === 'F') ? ' (Window Seat)' : ''}`;
+        }).join('<br>');
+        infoDiv.innerHTML = `You have selected:<br>${selectedSeatsInfo}`;
+    }
+
+    for (let i = 1; i <= rowMs; i++) {
+        createrowM(i);
+    }
+
+ 
 });
-</script>
 
+
+
+
+    </script>
 </body>
+
 </html>
