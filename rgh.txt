@@ -1,45 +1,165 @@
-function createRow(rowNum) {
-  const leftSeats = document.createElement('div');
-  leftSeats.classList.add('left-seats');
-  const rightSeats = document.createElement('div');
-  rightSeats.classList.add('right-seats');
+4 columns
 
-  for (let j = 0; j < 3; j++) {
-    if (rowNum !== 5) { // Check if it's not the 6th row (index 5)
-      const leftSeat = document.createElement('div');
-      leftSeat.classList.add('seat');
-      leftSeat.style.top = `${rowNum * 40}px`;
-      leftSeat.style.left = `${j * 40}px`;
-      leftSeat.dataset.row = rowNum;
-      leftSeat.dataset.col = j;
-      leftSeat.addEventListener('click', toggleSelection);
-      leftSeats.appendChild(leftSeat);
+const createrowM = (rowM) => {
+    const rowMDiv = document.createElement('div');
+    rowMDiv.className = 'rowM';
 
-      const rightSeat = document.createElement('div');
-      rightSeat.classList.add('seat');
-      rightSeat.style.top = `${rowNum * 40}px`;
-      rightSeat.style.right = `${j * 40}px`;
-      rightSeat.dataset.row = rowNum;
-      rightSeat.dataset.col = j + 3;
-      rightSeat.addEventListener('click', toggleSelection);
-      rightSeats.appendChild(rightSeat);
+    if (rowM <= 5) {
+        const seatA = createSeat(rowM, 'A');
+        const seatB = createSeat(rowM, 'B');
+        const centerrowM = document.createElement('div');
+        centerrowM.textContent = rowM;
+        centerrowM.className = 'centerrowM';
+        const seatC = createSeat(rowM, 'C');
+        const seatD = createSeat(rowM, 'D');
+
+        rowMDiv.appendChild(seatA);
+        rowMDiv.appendChild(seatB);
+        rowMDiv.appendChild(centerrowM);
+        rowMDiv.appendChild(seatC);
+        rowMDiv.appendChild(seatD);
+    } else if (rowM === 6) {
+        const seatA = createSeat(rowM, 'A');
+        const seatB = createSeat(rowM, 'B');
+        const seatC = createSeat(rowM, 'C');
+        const seatD = createSeat(rowM, 'D');
+        const centerrowM = document.createElement('div');
+        centerrowM.textContent = rowM;
+        centerrowM.className = 'centerrowM';
+        const seatE = createSeat(rowM, 'E');
+        const seatF = createSeat(rowM, 'F');
+        const seatG = createSeat(rowM, 'G');
+        const seatH = createSeat(rowM, 'H');
+
+        rowMDiv.appendChild(seatA);
+        rowMDiv.appendChild(seatB);
+        rowMDiv.appendChild(seatC);
+        rowMDiv.appendChild(centerrowM);
+        rowMDiv.appendChild(seatD);
+        rowMDiv.appendChild(seatE);
+        rowMDiv.appendChild(seatF);
+        rowMDiv.appendChild(seatG);
+        rowMDiv.appendChild(seatH);
+    } else {
+        const seatA = createSeat(rowM, 'A');
+        const seatB = createSeat(rowM, 'B');
+        const seatC = createSeat(rowM, 'C');
+        const centerrowM = document.createElement('div');
+        centerrowM.textContent = rowM;
+        centerrowM.className = 'centerrowM';
+        const seatD = createSeat(rowM, 'D');
+        const seatE = createSeat(rowM, 'E');
+        const seatF = createSeat(rowM, 'F');
+
+        rowMDiv.appendChild(seatA);
+        rowMDiv.appendChild(seatB);
+        rowMDiv.appendChild(seatC);
+        rowMDiv.appendChild(centerrowM);
+        rowMDiv.appendChild(seatD);
+        rowMDiv.appendChild(seatE);
+        rowMDiv.appendChild(seatF);
     }
-  }
 
-  const rowNumber = document.createElement('div');
-  rowNumber.classList.add('row-number');
-  rowNumber.textContent = `Row ${rowNum + 1}`;
-  rowNumber.style.top = `${rowNum * 40 + 5}px`;
-  plane.appendChild(rowNumber);
-
-  if (rowNum !== 5) { // Check if it's not the 6th row (index 5)
-    plane.appendChild(leftSeats);
-    plane.appendChild(rightSeats);
-  } else {
-    const gap = document.createElement('div');
-    gap.classList.add('gap');
-    gap.style.top = `${rowNum * 40}px`;
-    gap.style.left = `0`;
-    plane.appendChild(gap);
-  }
+    seatMap.appendChild(rowMDiv);
 }
+
+
+
+
+
+/////////////
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const seatMap = document.getElementById('seatMap');
+    const infoDiv = document.querySelector('.info');
+    const rowMs = 33;
+
+    const createSeat = (rowM, side) => {
+        const seat = document.createElement('div');
+        seat.className = 'seat';
+        seat.dataset.rowM = rowM;
+        seat.dataset.side = side;
+        seat.addEventListener('click', selectSeat);
+        const tick = document.createElement('div');
+        tick.className = 'tick';
+        tick.innerHTML = '&#10003;';
+        seat.appendChild(tick);
+        return seat;
+    }
+
+    const createrowM = (rowM) => {
+        const rowMDiv = document.createElement('div');
+        rowMDiv.className = 'rowM';
+
+        if (rowM <= 5) {
+            const seatA = createSeat(rowM, 'A');
+            const seatB = createSeat(rowM, 'B');
+            const centerrowM = document.createElement('div');
+            centerrowM.textContent = rowM;
+            centerrowM.className = 'centerrowM';
+            const seatC = createSeat(rowM, 'C');
+            const seatD = createSeat(rowM, 'D');
+
+            rowMDiv.appendChild(seatA);
+            rowMDiv.appendChild(seatB);
+            rowMDiv.appendChild(centerrowM);
+            rowMDiv.appendChild(seatC);
+            rowMDiv.appendChild(seatD);
+        } else {
+            const seatA = createSeat(rowM, 'A');
+            const seatB = createSeat(rowM, 'B');
+            const seatC = createSeat(rowM, 'C');
+            const centerrowM = document.createElement('div');
+            centerrowM.textContent = rowM;
+            centerrowM.className = 'centerrowM';
+            const seatD = createSeat(rowM, 'D');
+            const seatE = createSeat(rowM, 'E');
+            const seatF = createSeat(rowM, 'F');
+
+            rowMDiv.appendChild(seatA);
+            rowMDiv.appendChild(seatB);
+            rowMDiv.appendChild(seatC);
+            rowMDiv.appendChild(centerrowM);
+            rowMDiv.appendChild(seatD);
+            rowMDiv.appendChild(seatE);
+            rowMDiv.appendChild(seatF);
+        }
+
+        seatMap.appendChild(rowMDiv);
+    }
+
+    const selectSeat = (event) => {
+        const seat = event.currentTarget;
+        seat.classList.toggle('selected');
+        updateInfo();
+    }
+
+    const updateInfo = () => {
+        const selectedSeats = document.querySelectorAll('.seat.selected');
+        const selectedSeatsInfo = Array.from(selectedSeats).map(seat => {
+            const rowM = seat.dataset.rowM;
+            const side = seat.dataset.side;
+            return `Row ${rowM}, Seat ${side}${(side === 'A' || side === 'F') ? ' (Window Seat)' : ''}`;
+        }).join('<br>');
+        infoDiv.innerHTML = `You have selected:<br>${selectedSeatsInfo}`;
+    }
+
+    for (let i = 1; i <= rowMs; i++) {
+        createrowM(i);
+    }
+
+    // List of already selected seats
+    const alreadySelectedSeats = ['10D', '15B', '20F'];
+
+    for (let seatName of alreadySelectedSeats) {
+        const rowM = Number(seatName.slice(0, -1));
+        const side = seatName.slice(-1);
+        const seat = document.querySelector(`.seat[data-rowM='${rowM}'][data-side='${side}']`);
+        if (seat) {
+            seat.classList.add('selected');
+        }
+    }
+
+    updateInfo(); // Update selected seats info on page load
+});
