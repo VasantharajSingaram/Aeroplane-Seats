@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+ 
+  background: 
+    linear-gradient(90deg, #e1e1e1 25%, transparent 25%, transparent 50%, #e3e3e3 50%, #e1e1e1 75%, transparent 75%, transparent) 0 0,
+    linear-gradient(90deg, #e1e1e1 25%, transparent 25%, transparent 50%, #e3e3e3 50%, #e1e1e1 75%, transparent 75%, transparent) 8px 8px;
+  background-color: #ffffff; /* Initial color */
+  background-size: 16px 16px;
+  animation: moveAndPulse 2s ease-in-out infinite;
+}
+
+
+@keyframes moveAndPulse {
+  0% {
+    background-position: 0 0, 8px 8px;
+    background-size: 16px 16px;
+    filter: brightness(50%);
+  }
+  100% {
+    background-position: 16px 0, 24px 24px;
+    background-size: 20px 20px;
+    filter: brightness(100%);
+  }
+}
+
+
+    </style>
+</head>
+<body>
+    
+</body>
+</html>
